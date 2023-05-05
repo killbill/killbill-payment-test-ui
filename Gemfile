@@ -12,5 +12,10 @@ gemspec
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
+# For the dummy app
+group :development, :test do
+  gem 'puma'
+end
+
 # gem 'killbill-client', :github => 'killbill/killbill-client-ruby', :ref => 'work-for-release-0.19.x'
 # gem 'killbill-client', '3.2.0'

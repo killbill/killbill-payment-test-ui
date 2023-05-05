@@ -9,11 +9,12 @@ Kill Bill compatibility
 -----------------------
 
 | KPM UI version | Kill Bill version |
-| -------------: | ----------------: |
-| 0.0.y          | 0.18.z (Rails 4)  |
-| 0.1.y          | 0.18.z (Rails 5)  |
-| 1.x.y          | 0.20.z (Rails 5)  |
-| 2.x.y          | 0.22.z (Rails 5)  |
+|---------------:|------------------:|
+|          0.0.y |  0.18.z (Rails 4) |
+|          0.1.y |  0.18.z (Rails 5) |
+|          1.x.y |  0.20.z (Rails 5) |
+|          2.x.y |  0.22.z (Rails 5) |
+|          3.x.y |  0.24.z (Rails 7) |
 
 Testing
 -------
