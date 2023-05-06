@@ -5,6 +5,7 @@ require 'payment_test/client'
 module PaymentTest
   class PaymentsController < EngineController
     def index
+      raw_status = nil
       begin
         raw_status = ::Killbill::PaymentTest::PaymentTestClient.status(options_for_klient)
       rescue StandardError => e
@@ -29,9 +30,7 @@ module PaymentTest
                   'CLEAR'
                 end
 
-      @methods = if raw_status.nil?
-                   ['*']
-                 elsif !raw_status.key?('methods') || raw_status['methods'].empty?
+      @methods = if raw_status.nil? || !raw_status.key?('methods') || raw_status['methods'].empty?
                    ['*']
                  else
                    raw_status['methods']
