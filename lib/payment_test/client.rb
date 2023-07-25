@@ -35,11 +35,11 @@ module Killbill
         end
 
         def set_status_null(methods, options = {})
-          configure('ACTION_RETURN_NIL', nil, methods, options)
+          configure('RETURN_NIL', nil, methods, options)
         end
 
         def reset(methods, options = {})
-          configure('ACTION_RESET', nil, methods, options)
+          configure('ACTION_CLEAR', nil, methods, options)
         end
 
         private
@@ -49,7 +49,7 @@ module Killbill
             'CONFIGURE_ACTION' => action
           }
 
-          body['SLEEP_TIME_SEC'] = arg if action == 'ACTION_RESET'
+          body['SLEEP_TIME_SEC'] = arg if action == 'ACTION_CLEAR'
 
           body['METHODS'] = methods.nil? ? nil : methods.join(',')
 
