@@ -32,3 +32,13 @@ To run tests:
 ```
 rails t
 ```
+
+This plugin is using [killbill-assets-ui](https://github.com/killbill/killbill-assets-ui) to load the common assets.
+If you want to override the assets you can add it to ```app/assets/stylesheet/payment-test``` or ```app/assets/javascripts/payment-test```
+
+For integrate run with [killbill-admin-ui-standalone](https://github.com/killbill/killbill-admin-ui-standalone), please update the Gemfile to use killbill-payment-test-ui locally
+
+```
+# gem 'killbill-payment-test-ui'
+gem 'killbill-payment-test-ui', :path => '../killbill-payment-test-ui'
+```

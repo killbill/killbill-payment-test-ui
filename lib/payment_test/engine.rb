@@ -6,8 +6,7 @@
 # We need to explicitly require all of our dependencies listed in payment_test.gemspec
 #
 # See also https://github.com/carlhuda/bundler/issues/49
-require 'jquery-rails'
-require 'font-awesome-rails'
+require 'killbill-assets-ui'
 require 'killbill_client'
 
 module PaymentTest
