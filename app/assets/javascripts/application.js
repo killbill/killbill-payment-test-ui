@@ -11,3 +11,4 @@
 // about supported directives.
 //
 //= require payment_test/payment_test
+//= require assets/common
