@@ -39,7 +39,7 @@ module PaymentTest
 
     def set_failed_state
       new_state = params.require(:state)
-      target_method = "set_status_#{new_state.to_s.downcase}".to_sym
+      target_method = "set_status_#{new_state.to_s.downcase}"
 
       begin
         ::Killbill::PaymentTest::PaymentTestClient.send(target_method, nil, options_for_klient)
