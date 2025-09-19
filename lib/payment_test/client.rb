@@ -51,7 +51,7 @@ module Killbill
 
           body['SLEEP_TIME_SEC'] = arg if action == 'ACTION_CLEAR'
 
-          body['METHODS'] = methods.nil? ? nil : methods.join(',')
+          body['METHODS'] = methods&.join(',')
 
           KillBillClient::API.post "#{KILLBILL_PAYMENT_TEST_PREFIX}/configure",
                                    body.to_json,
