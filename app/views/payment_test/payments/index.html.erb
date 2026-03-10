@@ -1,6 +1,16 @@
-<div class="register add-new-custom-field-details">
-  <div>
-    <div class="mx-auto" style="max-width: 80rem;">
+<div class="kaui-container payment-test-index">
+  <%= render partial: 'kaui/components/breadcrumb/breadcrumb', locals: {
+    breadcrumbs: [
+      { label: 'Settings', href: '/' },
+      { label: "Payment Test", href: '#' }
+    ]
+  } %>
+
+  <div class="d-flex" style="gap: 4rem;">
+    <%= render template: 'kaui/layouts/kaui_setting_sidebar' %>
+
+    <div class="w-100">
+      <div class="mx-auto" style="max-width: 80rem;">
       <h5 class="add-new-custom-field-title border-bottom pb-3 mb-3">
         <span class="icon-container">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -49,5 +59,6 @@
             </table>
         </div>
     </div>
+  </div>
   </div>
 </div>
