@@ -49,9 +49,9 @@ module Killbill
             'CONFIGURE_ACTION' => action
           }
 
-          body['SLEEP_TIME_SEC'] = arg if action == 'ACTION_CLEAR'
+          body['SLEEP_TIME_SEC'] = arg if action == 'ACTION_SLEEP' && arg.present?
 
-          body['METHODS'] = methods&.join(',')
+          body['METHODS'] = methods.join(',') if methods.present?
 
           KillBillClient::API.post "#{KILLBILL_PAYMENT_TEST_PREFIX}/configure",
                                    body.to_json,
