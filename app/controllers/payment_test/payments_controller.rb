@@ -12,28 +12,31 @@ module PaymentTest
         Rails.logger.warn("Failed to retrieve payment status : #{e}")
       end
 
+      states = raw_status&.dig('states') || {}
+      sleeps = raw_status&.dig('sleeps') || {}
+
       @status = if raw_status.nil?
                   'UNKNOWN'
-                elsif raw_status.key? :always_return_plugin_status_error.to_s
-                  'RETURN ERROR'
-                elsif raw_status.key? :always_return_plugin_status_pending.to_s
-                  'RETURN PENDING'
-                elsif raw_status.key? :always_return_plugin_status_canceled.to_s
-                  'RETURN CANCELED'
-                elsif raw_status.key? :always_throw.to_s
-                  'RETURN THROW'
-                elsif raw_status.key? :always_return_nil.to_s
-                  'RETURN NULL '
-                elsif raw_status.key? :sleep_time_sec.to_s
-                  "SLEEP #{sleep_time_sec}"
-                else
+                elsif states.empty? && sleeps.empty?
                   'CLEAR'
+                elsif states.values.include?('ACTION_RETURN_PLUGIN_STATUS_ERROR')
+                  'RETURN ERROR'
+                elsif states.values.include?('ACTION_RETURN_PLUGIN_STATUS_PENDING')
+                  'RETURN PENDING'
+                elsif states.values.include?('ACTION_RETURN_PLUGIN_STATUS_CANCELED')
+                  'RETURN CANCELED'
+                elsif states.values.include?('ACTION_THROW_EXCEPTION')
+                  'RETURN THROW'
+                elsif states.values.include?('RETURN_NIL')
+                  'RETURN NULL'
+                elsif sleeps.any?
+                  "SLEEP #{sleeps.values.first}"
                 end
 
-      @methods = if raw_status.nil? || !raw_status.key?('methods') || raw_status['methods'].empty?
+      @methods = if states.empty?
                    ['*']
                  else
-                   raw_status['methods']
+                   states.keys
                  end
     end
 
@@ -43,20 +46,24 @@ module PaymentTest
 
       begin
         ::Killbill::PaymentTest::PaymentTestClient.send(target_method, nil, options_for_klient)
+        flash[:notice] = "Status set to #{new_state}"
       rescue StandardError => e
         flash[:error] = "Failed to set state: #{e}"
+        Rails.logger.error("Failed to set state: #{e.message}\n#{e.backtrace.join("\n")}")
       end
 
-      redirect_to root_path and return
+      redirect_to payment_test_engine.root_path and return
     end
 
     def reset
       begin
         ::Killbill::PaymentTest::PaymentTestClient.reset(nil, options_for_klient)
+        flash[:notice] = 'Status cleared'
       rescue StandardError => e
         flash[:error] = "Failed to reset state: #{e}"
+        Rails.logger.error("Failed to reset state: #{e.message}\n#{e.backtrace.join("\n")}")
       end
-      redirect_to root_path and return
+      redirect_to payment_test_engine.root_path and return
     end
   end
 end

@@ -28,21 +28,63 @@
                         <th>Method</th>
                         <th class="d-flex align-items-center">
                             <span>Status </span>
-                            <% menu_items = [
-                                { label: 'Clear all status', url: reset_path, method: :post },
-                                { label: 'Configure ERROR', url: set_failed_state_path(:state => :ERROR), method: :post },
-                                { label: 'Configure PENDING', url: set_failed_state_path(:state => :PENDING), method: :post },
-                                { label: 'Configure CANCELED', url: set_failed_state_path(:state => :CANCELED), method: :post },
-                                { label: 'Configure THROW', url: set_failed_state_path(:state => :THROW), method: :post }
-                            ] %>
+                            <div class="dropdown dropdown-menu-end position-relative ms-2" id="statusDropdown_wrapper">
+                              <button type="button" class="btn kaui-dropdown custom-hover btn-light select-status" id="statusDropdown_button" aria-expanded="false">
+                                Set status
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-left: 4px;">
+                                  <path d="M4 6L8 10L12 6" stroke="#495057" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                              </button>
+                              <ul class="dropdown-menu header-menu shadow border-0 rounded-3" id="statusDropdown_menu" style="min-width: 12rem; display: none; position: absolute; z-index: 1000;">
+                                <li>
+                                  <%= button_to reset_path, method: :post, class: 'dropdown-item d-flex align-items-center gap-2 py-2 px-3', style: 'background: none; border: none; width: 100%; text-align: left; font-size: 0.875rem; cursor: pointer;', form_class: 'mb-0 w-100' do %>
+                                    <span style="font-weight: 500; font-size: 0.875rem; color: #344054;">Clear all status</span>
+                                  <% end %>
+                                </li>
+                                <li>
+                                  <%= button_to set_failed_state_path(state: :ERROR), method: :post, class: 'dropdown-item d-flex align-items-center gap-2 py-2 px-3', style: 'background: none; border: none; width: 100%; text-align: left; font-size: 0.875rem; cursor: pointer;', form_class: 'mb-0 w-100' do %>
+                                    <span style="font-weight: 500; font-size: 0.875rem; color: #344054;">Configure ERROR</span>
+                                  <% end %>
+                                </li>
+                                <li>
+                                  <%= button_to set_failed_state_path(state: :PENDING), method: :post, class: 'dropdown-item d-flex align-items-center gap-2 py-2 px-3', style: 'background: none; border: none; width: 100%; text-align: left; font-size: 0.875rem; cursor: pointer;', form_class: 'mb-0 w-100' do %>
+                                    <span style="font-weight: 500; font-size: 0.875rem; color: #344054;">Configure PENDING</span>
+                                  <% end %>
+                                </li>
+                                <li>
+                                  <%= button_to set_failed_state_path(state: :CANCELED), method: :post, class: 'dropdown-item d-flex align-items-center gap-2 py-2 px-3', style: 'background: none; border: none; width: 100%; text-align: left; font-size: 0.875rem; cursor: pointer;', form_class: 'mb-0 w-100' do %>
+                                    <span style="font-weight: 500; font-size: 0.875rem; color: #344054;">Configure CANCELED</span>
+                                  <% end %>
+                                </li>
+                                <li>
+                                  <%= button_to set_failed_state_path(state: :THROW), method: :post, class: 'dropdown-item d-flex align-items-center gap-2 py-2 px-3', style: 'background: none; border: none; width: 100%; text-align: left; font-size: 0.875rem; cursor: pointer;', form_class: 'mb-0 w-100' do %>
+                                    <span style="font-weight: 500; font-size: 0.875rem; color: #344054;">Configure THROW</span>
+                                  <% end %>
+                                </li>
+                              </ul>
+                            </div>
+                            <%= javascript_tag do %>
+                              document.addEventListener('DOMContentLoaded', function () {
+                                const button = document.getElementById('statusDropdown_button');
+                                const menu = document.getElementById('statusDropdown_menu');
+                                const wrapper = document.getElementById('statusDropdown_wrapper');
 
-                             <%= render partial: "kaui/components/menu_dropdown/menu_dropdown", locals: {
-                                 variant: "btn-light",
-                                 label: raw("Set status&nbsp;"),
-                                 dropdown_id: "statusDropdown",
-                                 html_class: "select-status",
-                                 menu_items: menu_items
-                             } %>
+                                button.addEventListener('click', function (e) {
+                                  e.stopPropagation();
+                                  const isShown = menu.style.display === 'block';
+                                  document.querySelectorAll('.dropdown-menu').forEach(function (m) {
+                                    if (m !== menu) { m.style.display = 'none'; }
+                                  });
+                                  menu.style.display = isShown ? 'none' : 'block';
+                                });
+
+                                document.addEventListener('click', function (e) {
+                                  if (!wrapper.contains(e.target)) {
+                                    menu.style.display = 'none';
+                                  }
+                                });
+                              });
+                            <% end %>
                         </th>
                     </tr>
                 </thead>

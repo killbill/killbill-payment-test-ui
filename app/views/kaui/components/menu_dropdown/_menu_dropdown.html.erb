@@ -1,8 +1,31 @@
 <%#
-  This is a placeholder menu dropdown component for standalone gem usage.
+  Menu dropdown component for payment test UI.
   
-  This placeholder prevents "missing template" errors when running 
-  the gem independently during development or testing.
+  Locals:
+  - variant: CSS class for button styling (e.g., "btn-light")
+  - label: Button label text
+  - dropdown_id: Unique ID for the dropdown
+  - html_class: Additional CSS classes
+  - menu_items: Array of { label:, url:, method: } hashes
 %>
 
-<!-- Menu dropdown placeholder for standalone gem -->
+<div class="dropdown d-inline-block <%= local_assigns[:html_class] %>">
+  <button class="btn <%= local_assigns[:variant] || 'btn-secondary' %> btn-sm dropdown-toggle"
+          type="button"
+          id="<%= local_assigns[:dropdown_id] || 'menuDropdown' %>"
+          data-bs-toggle="dropdown"
+          aria-expanded="false">
+    <%= local_assigns[:label] || 'Menu' %>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="<%= local_assigns[:dropdown_id] || 'menuDropdown' %>">
+    <% (local_assigns[:menu_items] || []).each do |item| %>
+      <li>
+        <% if item[:method] && item[:method] != :get %>
+          <%= link_to item[:label], item[:url], method: item[:method], class: 'dropdown-item' %>
+        <% else %>
+          <%= link_to item[:label], item[:url], class: 'dropdown-item' %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>
