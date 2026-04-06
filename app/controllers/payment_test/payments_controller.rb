@@ -19,15 +19,15 @@ module PaymentTest
                   'UNKNOWN'
                 elsif states.empty? && sleeps.empty?
                   'CLEAR'
-                elsif states.values.include?('ACTION_RETURN_PLUGIN_STATUS_ERROR')
+                elsif states.value?('ACTION_RETURN_PLUGIN_STATUS_ERROR')
                   'RETURN ERROR'
-                elsif states.values.include?('ACTION_RETURN_PLUGIN_STATUS_PENDING')
+                elsif states.value?('ACTION_RETURN_PLUGIN_STATUS_PENDING')
                   'RETURN PENDING'
-                elsif states.values.include?('ACTION_RETURN_PLUGIN_STATUS_CANCELED')
+                elsif states.value?('ACTION_RETURN_PLUGIN_STATUS_CANCELED')
                   'RETURN CANCELED'
-                elsif states.values.include?('ACTION_THROW_EXCEPTION')
+                elsif states.value?('ACTION_THROW_EXCEPTION')
                   'RETURN THROW'
-                elsif states.values.include?('RETURN_NIL')
+                elsif states.value?('RETURN_NIL')
                   'RETURN NULL'
                 elsif sleeps.any?
                   "SLEEP #{sleeps.values.first}"
