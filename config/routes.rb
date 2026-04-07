@@ -6,7 +6,7 @@ PaymentTest::Engine.routes.draw do
   resources :payments, only: [:index]
 
   scope '/payments' do
-    match '/set_failed_state' => 'payments#set_failed_state', :via => :post, :as => 'set_failed_state'
-    match '/reset' => 'payments#reset', :via => :post, :as => 'reset'
+    post '/set_failed_state' => 'payments#set_failed_state', :as => 'set_failed_state'
+    post '/reset' => 'payments#reset', :as => 'reset'
   end
 end
